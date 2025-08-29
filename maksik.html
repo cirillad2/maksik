@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Привіт, друже! 💛</title>
+  <meta name="description" content="Персональне привітання та галерея фото" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-1: #0f172a; /* slate-900 */
+      --bg-2: #1e293b; /* slate-800 */
+      --brand: #22d3ee; /* cyan-400 */
+      --brand-2:#a78bfa; /* violet-400 */
+      --text: #e2e8f0; /* slate-200 */
+      --muted:#94a3b8; /* slate-400 */
+      --card: rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text);
+      background: radial-gradient(1200px 800px at 10% 10%, rgba(34,211,238,.25), transparent 60%),
+                  radial-gradient(1000px 700px at 90% 20%, rgba(167,139,250,.2), transparent 60%),
+                  linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    }
+    .wrap{max-width:1050px; margin:0 auto; padding:24px;}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+      margin-block:12px 24px;
+    }
+    .title{font-size:clamp(26px, 4vw, 42px); font-weight:800; letter-spacing:0.2px}
+    .subtitle{color:var(--muted); font-size:clamp(14px, 2.2vw, 18px)}
+    .card{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:24px; padding:22px; backdrop-filter:blur(8px);
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+    .greeting{display:block}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:14px;
+      padding:8px 12px; border-radius:999px; color:#081018; background:linear-gradient(90deg, var(--brand), var(--brand-2));
+    }
+    /* Carousel */
+    .carousel{position:relative; overflow:hidden; border-radius:20px; user-select:none; width:100%}
+    .carousel-track{display:flex; transition:transform .45s ease; will-change:transform}
+    .slide{min-width:100%; height:56vw; max-height:520px; position:relative; background:#0b1220}
+    .slide img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+    .slide .caption{position:absolute; left:16px; bottom:16px; right:16px;
+      background:linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.55)); color:#f8fafc; padding:14px 16px; border-radius:14px; font-size:14px}
+    .nav{position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; padding:0 8px}
+    .btn{appearance:none; border:1px solid rgba(255,255,255,.3); background:rgba(0,0,0,.35); color:#fff; width:42px; height:42px; border-radius:999px; display:grid; place-items:center; cursor:pointer; backdrop-filter:blur(6px)}
+    .btn:hover{background:rgba(0,0,0,.55)}
+    .dots{display:flex; gap:8px; justify-content:center; margin-top:12px}
+    .dot{width:10px; height:10px; border-radius:999px; background:rgba(255,255,255,.35); border:1px solid rgba(255,255,255,.5); cursor:pointer}
+    .dot.active{background:linear-gradient(90deg, var(--brand), var(--brand-2)); border-color:transparent}
+
+    footer{color:var(--muted); text-align:center; margin:28px auto}
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top:0; left:0; right:0; bottom:0;
+      background-color: #555;
+      transition: .4s;
+      border-radius: 26px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px; width: 20px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background: linear-gradient(90deg, var(--brand), var(--brand-2));
+    }
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    .promode-label {
+      margin-left: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* 📱 Адаптивні стилі */
+@media (max-width: 768px) {
+  .wrap {
+    padding: 16px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 24px;
+    text-align: left;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .promode-label {
+    font-size: 13px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .slide {
+    height: 70vw; /* вище фото, щоб на мобільному займало більшу частину */
+    max-height: none;
+  }
+
+  .slide .caption {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+
+  .btn {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .dots {
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  footer {
+    font-size: 12px;
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .slide {
+    height: 75vw; /* ще вища карусель на дуже малих екранах */
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 class="title">Привіт, <span id="friendName">Друже</span>! 👋</h1>
+        <p class="subtitle">На твоє день народження я приготував для тебе найкращі фото з найкращим другом !</p>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="promodeToggle">
+        <span class="slider"></span>
+      </label>
+      <span class="promode-label">ProMode</span>
+    </header>
+
+    <section class="card greeting">
+      <div class="carousel" id="carousel" aria-label="Галерея фотографій з кнопками навігації">
+        <div class="carousel-track" id="track"></div>
+        <div class="nav" aria-hidden="false">
+          <button class="btn" id="prev" aria-label="Попереднє фото" title="Попереднє">&#10094;</button>
+          <button class="btn" id="next" aria-label="Наступне фото" title="Наступне">&#10095;</button>
+        </div>
+      </div>
+      <div class="dots" id="dots" aria-hidden="false"></div>
+    </section>
+
+    <footer>© <span id="year"></span></footer>
+  </div>
+
+  <!-- 🎵 Аудіо -->
+  <audio id="music1" src="audio/music1.mp3" loop></audio>
+  <audio id="music2" src="audio/music2.mp3" loop></audio>
+
+  <script>
+    const SETTINGS = {
+      friendName: "Максим",
+      autoplayMs: 3500,
+      loop: true,
+    };
+
+    const IMAGES = [
+      { src: "images/photo_2024-09-05_23-32-10.jpg", caption: "Тупий Дарвін" },
+      { src: "images/photo_2024-09-14_19-17-10.jpg", caption: "Хітрий Дарвін" },
+      { src: "images/photo_2024-10-12_00-22-18.jpg", caption: "Дарвін спить" },
+      { src: "images/photo_2024-10-30_21-42-32.jpg", caption: "Дарвін спить під ковдрою" },
+      { src: "images/photo_2024-11-23_16-57-52.jpg", caption: "Дарвін геймер" },
+      { src: "images/photo_2024-11-28_02-34-02.jpg", caption: "Дарвін Нюхає бздуни" },
+      { src: "images/photo_2024-12-02_15-00-34.jpg", caption: "Shoked Darvin" },
+      { src: "images/photo_2024-12-26_01-25-19.jpg", caption: "Afro-Darvin" },
+      { src: "images/photo_2025-02-17_16-06-50.jpg", caption: "Дарвін в пакеті" },
+      { src: "images/photo_2025-02-27_15-48-42.jpg", caption: "Милий Дарвін" },
+      { src: "images/photo_2025-03-12_14-53-12.jpg", caption: "Глазастий Дарвін" },
+      { src: "images/photo_2025-03-18_16-26-18.jpg", caption: "Спокійний Дарвін" },
+      { src: "images/photo_2025-04-08_01-04-36.jpg", caption: "Чіловий Дарвін" },
+      { src: "images/photo_2025-05-04_21-39-28.jpg", caption: "НЕ Мішає Дарвін" },
+      { src: "images/photo_2025-05-06_17-52-59.jpg", caption: "Пахан Дарвін" },
+      { src: "images/photo_2025-05-31_18-24-58.jpg", caption: "Унилий Дарвін" },
+      { src: "images/photo_2025-06-01_21-06-31.jpg", caption: "Дарвін X Дарвін" },
+      { src: "images/photo_2025-06-01_23-15-59.jpg", caption: "Дарвін спить під ковдрою 2" },
+      { src: "images/photo_2025-06-09_15-12-43.jpg", caption: "Жирний Дарвін" },
+      { src: "images/photo_2025-06-09_16-31-35.jpg", caption: "Вася Дарвін" },
+      { src: "images/photo_2025-06-10_16-26-55.jpg", caption: "Немає Дарвін" },
+      { src: "images/photo_2025-06-12_00-32-35.jpg", caption: "Дарвін в раковині" },
+      { src: "images/photo_2025-06-18_21-38-47.jpg", caption: "Дарвін в коробці" },
+      { src: "images/photo_2025-06-29_23-51-49.jpg", caption: "Бздун Дарвін" },
+      { src: "images/photo_2025-07-27_19-06-52.jpg", caption: "Даша і Дарвін" },
+      { src: "images/photo_2025-08-07_23-33-50.jpg", caption: "Чухан Дарвін" },
+      { src: "images/photo_2025-08-17_17-25-02.jpg", caption: "Дарвін в кепці" },
+      { src: "images/photo_2025-08-27_23-31-08.jpg", caption: "Дарвін в сумці" },
+      { src: "images/photo_2025-08-29_00-35-40.jpg", caption: "Дарвін на тапочках" },
+      { src: "images/photo_2025-08-21_21-07-47.jpg", caption: "Гамно" },
+    ];
+
+    // Основні елементи
+    const friendEl = document.getElementById('friendName');
+    const yearEl = document.getElementById('year');
+    friendEl.textContent = SETTINGS.friendName;
+    yearEl.textContent = new Date().getFullYear();
+
+    const track = document.getElementById('track');
+    const dots = document.getElementById('dots');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const carousel = document.getElementById('carousel');
+
+    let index = 0;
+    let timer = null;
+    let isPointerDown = false;
+    let startX = 0;
+    let deltaX = 0;
+
+    function buildSlides(){
+      track.innerHTML = '';
+      dots.innerHTML = '';
+      IMAGES.forEach((img, i)=>{
+        const slide = document.createElement('div');
+        slide.className = 'slide';
+        slide.setAttribute('role','group');
+        slide.setAttribute('aria-label', `${i+1} з ${IMAGES.length}`);
+
+        const image = document.createElement('img');
+        image.src = img.src;
+        image.alt = img.alt || `Фото ${i+1}`;
+        image.loading = 'lazy';
+        slide.appendChild(image);
+
+        if(img.caption){
+          const cap = document.createElement('div');
+          cap.className = 'caption';
+          cap.textContent = img.caption;
+          slide.appendChild(cap);
+        }
+        track.appendChild(slide);
+
+        const dot = document.createElement('button');
+        dot.className = 'dot';
+        dot.setAttribute('aria-label', `Перейти до слайду ${i+1}`);
+        dot.addEventListener('click', ()=> goTo(i));
+        dots.appendChild(dot);
+      });
+      updateUI();
+    }
+
+    function updateUI(){
+      track.style.transform = `translateX(${-index * 100}%)`;
+      [...dots.children].forEach((d, i)=>{
+        d.classList.toggle('active', i === index);
+      });
+    }
+
+    function goTo(i){
+      const last = IMAGES.length - 1;
+      if(i < 0) index = SETTINGS.loop ? last : 0;
+      else if(i > last) index = SETTINGS.loop ? 0 : last;
+      else index = i;
+      updateUI();
+      restartAutoplay();
+    }
+
+    function next(){ goTo(index + 1); }
+    function prev(){ goTo(index - 1); }
+
+    function startAutoplay(){
+      if(SETTINGS.autoplayMs > 0){
+        stopAutoplay();
+        timer = setInterval(next, SETTINGS.autoplayMs);
+      }
+    }
+
+    function stopAutoplay(){ if(timer) { clearInterval(timer); timer = null; } }
+    function restartAutoplay(){ stopAutoplay(); startAutoplay(); }
+
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 'ArrowRight') next();
+      if(e.key === 'ArrowLeft') prev();
+    });
+
+    track.addEventListener('pointerdown', (e)=>{
+      isPointerDown = true; startX = e.clientX; deltaX = 0; track.style.transition = 'none';
+    });
+    window.addEventListener('pointermove', (e)=>{
+      if(!isPointerDown) return; deltaX = e.clientX - startX;
+      track.style.transform = `translateX(calc(${-index * 100}% + ${deltaX}px))`;
+    });
+    window.addEventListener('pointerup', ()=>{
+      if(!isPointerDown) return; track.style.transition = '';
+      const threshold = window.innerWidth * 0.12;
+      if(Math.abs(deltaX) > threshold){ deltaX < 0 ? next() : prev(); }
+      else updateUI();
+      isPointerDown = false; deltaX = 0;
+    });
+
+    prevBtn.addEventListener('click', prev);
+    nextBtn.addEventListener('click', next);
+    carousel.addEventListener('mouseenter', stopAutoplay);
+    carousel.addEventListener('mouseleave', startAutoplay);
+
+    buildSlides();
+    startAutoplay();
+
+    // 🎵 Код для музики
+    const music1 = document.getElementById('music1');
+    const music2 = document.getElementById('music2');
+    const toggle = document.getElementById('promodeToggle');
+
+    // Запускаємо музику тільки після першого кліку
+    document.addEventListener('click', () => {
+      if(toggle.checked){
+        music2.play().catch(()=>{});
+      } else {
+        music1.play().catch(()=>{});
+      }
+    }, { once: true });
+
+    toggle.addEventListener('change', ()=>{
+      if(toggle.checked){
+        music1.pause();
+        music1.currentTime = 0;
+        music2.play().catch(()=>{});
+      } else {
+        music2.pause();
+        music2.currentTime = 0;
+        music1.play().catch(()=>{});
+      }
+    });
+  </script>
+</body>
+</html>
